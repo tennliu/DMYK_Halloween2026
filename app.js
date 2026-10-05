@@ -32,122 +32,51 @@ function openMap(lang) {
   currentLang = lang;
   applyOverlayCopy(lang);
   mapFrame.src = MAPS[lang];
-  mapFrame.classList.remove('is-hidden');
   landingScreen.classList.add('is-hidden');
   mapScreen.classList.remove('is-hidden');
   closeOverlay();
-  syncAppScale();
   window.scrollTo(0,0);
-  queueViewportSync();
 }
 
 function showLandingPage() {
   closeOverlay();
-  mapFrame.classList.add('is-hidden');
   mapFrame.src = '';
   mapScreen.classList.add('is-hidden');
   landingScreen.classList.remove('is-hidden');
-  syncAppScale();
   window.scrollTo(0,0);
-  queueViewportSync();
 }
 
 function openOverlay() {
-  overlay.scrollTop = 0;
   overlay.classList.add('is-visible');
   overlay.setAttribute('aria-hidden','false');
-  queueViewportSync();
 }
 function closeOverlay() {
   overlay.classList.remove('is-visible');
   overlay.setAttribute('aria-hidden','true');
-  queueViewportSync();
 }
 
 const MASTER_WIDTH = 390;
 const PHONE_BREAKPOINT = 600;
 const appStage = document.querySelector('.app-stage');
 const phoneShell = document.querySelector('.phone-shell');
-let viewportFrame = 0;
-let viewportSettleTimer = 0;
-let viewportFinalTimer = 0;
 
 function syncAppScale() {
   const viewport = window.visualViewport;
-  // Keep the layout width stable during browser pinch zoom.
-  const vw = window.innerWidth;
-  const unzoomed = viewport && Math.abs(viewport.scale - 1) < 0.02;
-  const vh = unzoomed ? viewport.height : window.innerHeight;
+  const vw = viewport ? viewport.width : window.innerWidth;
+  const vh = viewport ? viewport.height : window.innerHeight;
   const scale = vw <= PHONE_BREAKPOINT ? vw / MASTER_WIDTH : 1;
 
-  const mapActive = !mapScreen.classList.contains('is-hidden');
-  document.documentElement.classList.toggle('map-active', mapActive);
-  appStage.style.width = `${vw <= PHONE_BREAKPOINT ? vw : MASTER_WIDTH}px`;
-  appStage.style.setProperty('--app-scale', String(scale));
+  appStage.style.width = `${MASTER_WIDTH * scale}px`;
+  appStage.style.height = `${vh}px`;
   phoneShell.style.width = `${MASTER_WIDTH}px`;
+  phoneShell.style.height = `${vh / scale}px`;
   phoneShell.style.transform = `scale(${scale})`;
-  if (mapActive) {
-    syncMapViewport(viewport, unzoomed);
-    // Only the button canvas follows the visible height; the iframe stays
-    // independently anchored to the stable large viewport in CSS.
-    appStage.style.removeProperty('height');
-    phoneShell.style.removeProperty('height');
-  } else {
-    clearMapViewport();
-    const stageHeight = Math.max(vh, 844 * scale);
-    appStage.style.height = `${stageHeight}px`;
-    phoneShell.style.height = `${stageHeight / scale}px`;
-  }
-}
-
-function clearMapViewport() {
-  document.documentElement.style.removeProperty('--map-viewport-height');
-  document.documentElement.style.removeProperty('--map-viewport-top');
-}
-
-function syncMapViewport(viewport, unzoomed) {
-  if (!unzoomed || !Number.isFinite(viewport.height) || viewport.height <= 0) {
-    // Keep browser pinch zoom native; dynamic CSS height is the fallback.
-    clearMapViewport();
-    return;
-  }
-  const style = document.documentElement.style;
-  const height = `${Math.round(viewport.height * 10) / 10}px`;
-  const top = `${Math.round(Math.max(0, viewport.offsetTop || 0) * 10) / 10}px`;
-  if (style.getPropertyValue('--map-viewport-height') !== height) {
-    style.setProperty('--map-viewport-height', height);
-  }
-  if (style.getPropertyValue('--map-viewport-top') !== top) {
-    style.setProperty('--map-viewport-top', top);
-  }
-}
-
-function queueViewportSync() {
-  // Coalesce event bursts; read again after toolbar animation has settled.
-  if (!viewportFrame) {
-    viewportFrame = requestAnimationFrame(() => {
-      viewportFrame = 0;
-      syncAppScale();
-    });
-  }
-  clearTimeout(viewportSettleTimer);
-  clearTimeout(viewportFinalTimer);
-  viewportSettleTimer = setTimeout(syncAppScale, 180);
-  viewportFinalTimer = setTimeout(syncAppScale, 450);
 }
 
 syncAppScale();
-window.addEventListener('resize', queueViewportSync, {passive:true});
-window.addEventListener('orientationchange', queueViewportSync, {passive:true});
-window.addEventListener('pageshow', queueViewportSync, {passive:true});
-window.addEventListener('focus', queueViewportSync, {passive:true});
-document.addEventListener('visibilitychange', () => {
-  if (!document.hidden) queueViewportSync();
-});
+window.addEventListener('resize', syncAppScale, {passive:true});
 if (window.visualViewport) {
-  window.visualViewport.addEventListener('resize', queueViewportSync, {passive:true});
-  window.visualViewport.addEventListener('scroll', queueViewportSync, {passive:true});
-  window.visualViewport.addEventListener('scrollend', queueViewportSync, {passive:true});
+  window.visualViewport.addEventListener('resize', syncAppScale, {passive:true});
 }
 
 document.getElementById('landingBtn').addEventListener('click', () => openMap('zh'));
