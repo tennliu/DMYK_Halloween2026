@@ -49,6 +49,7 @@ function showLandingPage() {
 }
 
 function openOverlay() {
+  overlay.scrollTop = 0;
   overlay.classList.add('is-visible');
   overlay.setAttribute('aria-hidden','false');
 }
@@ -64,12 +65,15 @@ const phoneShell = document.querySelector('.phone-shell');
 
 function syncAppScale() {
   const viewport = window.visualViewport;
-  const vw = viewport ? viewport.width : window.innerWidth;
-  const vh = viewport ? viewport.height : window.innerHeight;
+  // Keep the layout width stable during browser pinch zoom.
+  const vw = window.innerWidth;
+  const vh = viewport && viewport.scale === 1 ? viewport.height : window.innerHeight;
   const scale = vw <= PHONE_BREAKPOINT ? vw / MASTER_WIDTH : 1;
 
-  appStage.style.width = `${MASTER_WIDTH * scale}px`;
-  const stageHeight = landingScreen.classList.contains('is-hidden') ? vh : Math.max(vh, 844 * scale);
+  const mapActive = !mapScreen.classList.contains('is-hidden');
+  document.documentElement.classList.toggle('map-active', mapActive);
+  appStage.style.width = `${vw <= PHONE_BREAKPOINT ? vw : MASTER_WIDTH}px`;
+  const stageHeight = mapActive ? vh : Math.max(vh, 844 * scale);
   appStage.style.height = `${stageHeight}px`;
   phoneShell.style.width = `${MASTER_WIDTH}px`;
   phoneShell.style.height = `${stageHeight / scale}px`;
