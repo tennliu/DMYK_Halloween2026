@@ -26,6 +26,6 @@ body{overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .overlay-description{font-size:17px;line-height:1.72;white-space:pre-line;text-align:left;text-shadow:0 1px 2px rgba(0,0,0,.12)}
 .deco-icon{display:block;width:148px;height:auto;margin:16px auto 22px;pointer-events:none;user-select:none}
 .overlay-actions{display:grid;gap:12px;padding-bottom:4px}
-.overlay-btn{min-height:50px;border:1px solid rgba(255,255,255,.68);border-radius:25px;background:#edaf27;color:#300757;font-weight:700;font-size:16px;cursor:pointer}
+.overlay-btn{min-height:50px;border:1px solid #edaf27;border-radius:25px;background:#edaf27;color:#300757;font-weight:700;font-size:16px;cursor:pointer}
 .overlay-btn-secondary{background:transparent;color:#fff}
 @media(max-width:340px){.overlay-inner{width:100vw}.overlay-content{padding-left:16px;padding-right:16px}.overlay-description{font-size:15.5px;line-height:1.65}}
