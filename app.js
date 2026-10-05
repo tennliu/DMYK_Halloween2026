@@ -32,6 +32,7 @@ function openMap(lang) {
   currentLang = lang;
   applyOverlayCopy(lang);
   mapFrame.src = MAPS[lang];
+  mapFrame.classList.remove('is-hidden');
   landingScreen.classList.add('is-hidden');
   mapScreen.classList.remove('is-hidden');
   closeOverlay();
@@ -42,6 +43,7 @@ function openMap(lang) {
 
 function showLandingPage() {
   closeOverlay();
+  mapFrame.classList.add('is-hidden');
   mapFrame.src = '';
   mapScreen.classList.add('is-hidden');
   landingScreen.classList.remove('is-hidden');
@@ -86,7 +88,8 @@ function syncAppScale() {
   phoneShell.style.transform = `scale(${scale})`;
   if (mapActive) {
     syncMapViewport(viewport, unzoomed);
-    // One CSS height controls the body, map and bottom button together.
+    // Only the button canvas follows the visible height; the iframe stays
+    // independently anchored to the stable large viewport in CSS.
     appStage.style.removeProperty('height');
     phoneShell.style.removeProperty('height');
   } else {
