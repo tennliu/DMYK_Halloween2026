@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#300757">
+  <title>2026 東門永康萬聖節｜DMYK Halloween</title>
+  <meta name="description" content="10/17（六）11:00–17:00，東門永康一起來搗蛋！開啟萬聖節活動地圖，探索商圈店家。">
+  <link rel="stylesheet" href="style.css?v=halloween-1">
+</head>
+<body>
+  <div class="app-stage">
+    <main class="phone-shell">
+      <section id="landingScreen" class="landing-screen" aria-label="2026 東門永康萬聖節活動首頁">
+        <img class="landing-bg" src="assets/LandingPage_BG.svg" width="390.1" height="844" alt="2026 東門永康萬聖節。10月17日星期六，11:00–17:00，一起來搗蛋！公園手作、遊樂設施、舞台表演。主辦：台北市東門永康商圈發展協會。">
+        <button id="landingBtn" class="landing-btn" type="button" aria-label="開啟萬聖節活動地圖">
+          <img src="assets/LandingPage_btn.svg" width="117.42" height="117.42" alt="">
+        </button>
+      </section>
+
+      <section id="mapScreen" class="map-screen is-hidden" aria-label="萬聖節活動地圖">
+        <iframe id="mapFrame" title="東門永康萬聖節活動地圖" src="" loading="eager" allowfullscreen></iframe>
+        <button id="sideBtn" class="side-btn" type="button" aria-label="Open information panel">
+          <img src="assets/Side_btn.svg" alt="">
+        </button>
+      </section>
+    </main>
+  </div>
+
+  <div id="overlay" class="overlay" aria-hidden="true">
+    <img class="overlay-base" src="assets/Overlay_BG.svg" alt="" aria-hidden="true">
+    <div class="overlay-inner">
+      <img class="overlay-logo" src="assets/Overlay_Logo.svg?v=19" alt="Dongmen YongKang">
+      <div class="overlay-content">
+        <div id="overlayDescription" class="overlay-description"></div>
+        <object class="deco-icon" data="assets/Deco_Icon.svg?v=19" type="image/svg+xml" aria-hidden="true" tabindex="-1"></object>
+        <div class="overlay-actions">
+          <button id="shareBtn" class="overlay-btn" type="button">分享</button>
+          <button id="homeBtn" class="overlay-btn" type="button">回到首頁</button>
+          <button id="closeBtn" class="overlay-btn overlay-btn-secondary" type="button">關閉</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=halloween-1"></script>
+</body>
+</html>
