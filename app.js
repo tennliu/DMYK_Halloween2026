@@ -73,11 +73,19 @@ function syncAppScale() {
   const mapActive = !mapScreen.classList.contains('is-hidden');
   document.documentElement.classList.toggle('map-active', mapActive);
   appStage.style.width = `${vw <= PHONE_BREAKPOINT ? vw : MASTER_WIDTH}px`;
-  const stageHeight = mapActive ? vh : Math.max(vh, 844 * scale);
-  appStage.style.height = `${stageHeight}px`;
+  appStage.style.setProperty('--app-scale', String(scale));
   phoneShell.style.width = `${MASTER_WIDTH}px`;
-  phoneShell.style.height = `${stageHeight / scale}px`;
   phoneShell.style.transform = `scale(${scale})`;
+  if (mapActive) {
+    // CSS dynamic viewport height follows expanding/collapsing browser chrome.
+    // Clear the landing-page heights so stale pixel values cannot leave a gap.
+    appStage.style.removeProperty('height');
+    phoneShell.style.removeProperty('height');
+  } else {
+    const stageHeight = Math.max(vh, 844 * scale);
+    appStage.style.height = `${stageHeight}px`;
+    phoneShell.style.height = `${stageHeight / scale}px`;
+  }
 }
 
 syncAppScale();

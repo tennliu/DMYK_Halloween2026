@@ -4,8 +4,9 @@ html,body{margin:0;width:100%;min-height:100%;background:var(--outer);font-famil
 button{font:inherit}.is-hidden{display:none!important}
 html{overscroll-behavior-y:none}
 html.map-active{height:100%;overflow:hidden}
-html.map-active body{position:fixed;inset:0;height:100%;overflow:hidden;overscroll-behavior:none}
-html.map-active .app-stage{position:absolute;top:0;left:50%;margin:0;transform:translateX(-50%)}
+html.map-active body{position:fixed;inset:0;height:100vh;height:100dvh;overflow:hidden;overscroll-behavior:none}
+html.map-active .app-stage{position:absolute;top:0;left:50%;height:100%;margin:0;transform:translateX(-50%)}
+html.map-active .phone-shell{height:calc(100% / var(--app-scale,1))}
 body{overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .app-stage{position:relative;margin:0 auto;background:var(--page-red);overflow:hidden}
 .phone-shell{position:absolute;top:0;left:0;width:var(--master);min-height:0;background:var(--page-red);overflow:hidden;transform-origin:top left;will-change:transform}
