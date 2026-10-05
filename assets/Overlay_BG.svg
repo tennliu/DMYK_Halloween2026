@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="_圖層_2" data-name="圖層 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844">
-  <g id="_圖層_1-2" data-name="圖層 1">
-    <rect width="390" height="844" fill="#910000" opacity=".8"/>
-  </g>
+<svg id="_圖層_2" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 390 844">
+  <!-- Generator: Adobe Illustrator 30.5.1, SVG Export Plug-In . SVG Version: 2.1.4 Build 3)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #300757;
+        isolation: isolate;
+      }
+    </style>
+  </defs>
+  <rect class="st0" width="390" height="844"/>
 </svg>
